@@ -1,18 +1,28 @@
 const express = require("express");
+
+const { auth } = require("../../middlewares");
 const { contacts: ctrl } = require("../../controllers");
+const { validation, ctrlWrapper } = require("../../helpers");
+const { addSchema, updateStatusSchema } = require("../../models/contact");
+const validateMiddleware = validation(addSchema);
+
 const router = express.Router();
-const { ctrlWrapper } = require("../../helpers");
 
-router.get("/", ctrlWrapper(ctrl.get));
+router.get("/", auth, ctrlWrapper(ctrl.get));
 
-router.get("/:id", ctrlWrapper(ctrl.getById));
+router.get("/:id", auth, ctrlWrapper(ctrl.getById));
 
-router.post("/", ctrlWrapper(ctrl.create));
+router.post("/", auth, validateMiddleware, ctrlWrapper(ctrl.create));
 
-router.put("/:id", ctrlWrapper(ctrl.update));
+router.put("/:id", auth, validateMiddleware, ctrlWrapper(ctrl.update));
 
-router.patch("/:id/favorite", ctrlWrapper(ctrl.updateFavorite));
+router.patch(
+  "/:id/favorite",
+  auth,
+  validation(updateStatusSchema),
+  ctrlWrapper(ctrl.updateFavorite)
+);
 
-router.delete("/:id", ctrlWrapper(ctrl.remove));
+router.delete("/:id", auth, ctrlWrapper(ctrl.remove));
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { model, Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
 const contactSchema = new Schema(
@@ -23,6 +23,10 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -36,6 +40,7 @@ const addSchema = Joi.object({
     })
     .required(),
   phone: Joi.string().min(3).max(30).required(),
+  favorite: Joi.boolean(),
 });
 
 const updateStatusSchema = Joi.object({
