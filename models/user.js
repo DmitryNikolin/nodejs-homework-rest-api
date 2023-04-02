@@ -9,17 +9,21 @@ const userSchema = Schema(
     password: {
       type: String,
       minlength: 6,
-      required: [true, 'Password is required'],
+      required: [true, "Password is required"],
     },
     email: {
       type: String,
-      required: [true, 'Email is required'],
+      required: [true, "Email is required"],
       unique: true,
     },
     subscription: {
       type: String,
-      enum: ['starter', 'pro', 'business'],
-      default: 'starter',
+      enum: ["starter", "pro", "business"],
+      default: "starter",
+    },
+    avatarURL: {
+      type: String,
+      required: [true, "Avatar is required"],
     },
     token: {
       type: String,

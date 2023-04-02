@@ -9,6 +9,8 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
+global.basedir = __dirname;
+
 const authRouter = require("./routes/api/auth");
 const contactsRouter = require("./routes/api/contacts");
 const usersRouter = require("./routes/api/users");
@@ -20,6 +22,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger)); // middleware outputs data (requests)
 app.use(cors());
 app.use(express.json()); // checks Content-Type, parses body as an object
+app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);

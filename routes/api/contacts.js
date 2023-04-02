@@ -5,7 +5,7 @@ const { contacts: ctrl } = require("../../controllers");
 const { validation, ctrlWrapper } = require("../../helpers");
 const { schemas, addSchema, updateStatusSchema } = require("../../models/contact");
 
-const validateMiddleware = validation(schemas.addSchema);
+const validateMiddleware = validation(addSchema);
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.put("/:id", auth, validateMiddleware, ctrlWrapper(ctrl.update));
 router.patch(
   "/:id/favorite",
   auth,
-  validation(schemas.updateStatusSchema),
+  validation(updateStatusSchema),
   ctrlWrapper(ctrl.updateFavorite)
 );
 
